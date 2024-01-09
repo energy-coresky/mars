@@ -9,19 +9,31 @@ class mars_c extends Controller
     }
 
     function a_ware() {
-        //'_mars?ware' != $this->w_last_link or $this->w_last_link = '';
-        //jump();
+        '_mars?ware' != $this->w_last_link or $this->w_last_link = '';
+        jump($this->w_last_link ?: '_mars?phobos');
     }
 
     function empty_a() {
-        return [
-        ];
+        return [        ];
     }
 
-    function a_test() {
+    function a_dev_crash() {
+        if ($this->_2)
+            return [];
+        throw new Error('a_dev_crash');
     }
 
-    function j_delete() {
+    function a_phobos() {
+        return [];
     }
 
+    function a_deimos() {
+        return [];
+    }
+
+    function j_coverage() {
+        $this->m_mars->coverage();
+        echo 'Done';
+    }
 }
+

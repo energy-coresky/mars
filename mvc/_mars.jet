@@ -1,2 +1,49 @@
 #.jet core
 
+#.phobos //////////////////////////////////////////////////////////////////////////////
+#use(.menu)
+#use(.psat)
+@use(`<h4>PHOBOS - FUNCTIONAL TESTING</h4>` as header)
+
+ADDR: GET ?main%5B0%5D=md5&main%5B1%5D%5B%5D=1f387
+<button onclick="ajax('coverage', 'master')">Start</button>
+<br>
+Test <a href="_mars?dev_crash">dev_crash</a>
+<br>
+Test <a href="_mars?dev_crash=1">dev_crash 2</a> with "headers sent"
+
+#.phobos.psat
+<a href="_mars?phobos=man" class="inner-menu"@active('man' == $sky->_2)>Manual</a>
+<a href="_mars?phobos=auto" class="inner-menu"@active('auto' == $sky->_2)>Automatic</a>
+#.psat
+
+
+#.deimos //////////////////////////////////////////////////////////////////////////////
+#use(.menu)
+#use(.dsat)
+@use(`<h4>DEIMOS - UNIT TESTING</h4>` as header)
+
+#.deimos.dsat ------------------------------------------------------------------------------
+<a href="_mars?deimos=man" class="inner-menu"@active('man' == $sky->_2)>Manual</a>
+<a href="_mars?deimos=auto" class="inner-menu"@active('auto' == $sky->_2)>Automatic</a>
+#.dsat.menu ------------------------------------------------------------------------------
+<br>
+<div class="other-task" style="position:sticky; top:50px">Mars</div>
+<a href="_mars?phobos="@active('phobos' == $sky->_1)>Phobos</a>@block(`` as psat)
+<a href="_mars?deimos="@active('deimos' == $sky->_1)>Deimos</a>@block(`` as dsat)
+#.menu
+
+#.dev_crash
+1
+@php throw new Error('a_dev_crash') ~php
+#.dev_crash
+
+
+<a href="_earth?sandbox={{$sky->w_last_sand ?: 'php'}}"@active('sandbox' == $sky->_1)>Sandboxes</a>
+@block(`` as phar)
+@use(`<h3>CORESKY {{$atyp ?? 'DOCUMENTATION'}}: {{$e_earth->doc[4] ?? ''}}</h3>` as header)
+
+@loop($sands as $uri => $name)
+    <a href="_earth?sandbox={{$uri}}" class="inner-menu"@active($uri == $sky->_2)>{{$name}}</a>
+    @use(`<h3 class="upper-case">DEV SANDBOX {{$sands[$sky->_2]}}</h3>` as header)
+~loop
